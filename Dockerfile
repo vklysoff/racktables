@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.15
 MAINTAINER Lysov Vitalij
 
 ENV DBHOST="mariadb" \
@@ -12,15 +12,15 @@ RUN apk --no-cache add \
     git \
     ca-certificates \
     curl \
-    php5-bcmath \
-    php5-curl \
-    php5-fpm \
-    php5-gd \
-    php5-json \
-    php5-ldap \
-    php5-pcntl \
-    php5-pdo_mysql \
-    php5-snmp \
+    php7-bcmath \
+    php7-curl \
+    php7-fpm \
+    php7-gd \
+    php7-json \
+    php7-ldap \
+    php7-pcntl \
+    php7-pdo_mysql \
+    php7-snmp \
     nginx \
     supervisor \
 #RUN apk update && apk upgrade && apk --no-cache --update add ca-certificates curl nginx supervisor \
@@ -29,11 +29,11 @@ RUN apk --no-cache add \
     && mkdir /run/nginx \
     && git clone https://github.com/RackTables/racktables/ /opt/racktables \
     && cd /opt/racktables \
-    && git checkout RackTables-0.21.4 \
+    && git checkout RackTables-0.22.0 \
     && sed -i \
     -e 's|^listen =.*$|listen = 9000|' \
     -e 's|^;daemonize =.*$|daemonize = no|' \
-    /etc/php5/php-fpm.conf
+    /etc/php7/php-fpm.conf
     #/usr/local/etc/php-fpm.d/www.conf
 #
 COPY nginx.conf /etc/nginx/nginx.conf
