@@ -1,5 +1,5 @@
 FROM alpine:3.6
-MAINTAINER Jason Horn
+MAINTAINER Lysov Vitalij
 
 ENV DBHOST="mariadb" \
     DBNAME="racktables" \
@@ -9,6 +9,7 @@ ENV DBHOST="mariadb" \
 COPY entrypoint.sh /entrypoint.sh
 COPY supervisord.conf /etc/supervisord.conf
 RUN apk --no-cache add \
+    git \
     ca-certificates \
     curl \
     php5-bcmath \
@@ -24,12 +25,11 @@ RUN apk --no-cache add \
     supervisor \
 #RUN apk update && apk upgrade && apk --no-cache --update add ca-certificates curl nginx supervisor \
     && chmod +x /entrypoint.sh \
-    && curl -sSLo /racktables.tar.gz 'https://github.com/RackTables/racktables/archive/RackTables-0.20.13.tar.gz' \
     && mkdir /opt \
     && mkdir /run/nginx \
-    && tar -xz -C /opt -f /racktables.tar.gz \
-    && mv /opt/racktables-RackTables-0.20.13 /opt/racktables \
-    && rm -f /racktables.tar.gz \
+    && git clone https://github.com/RackTables/racktables/ /opt/racktables \
+    && cd /opt/racktables \
+    && git checkout RackTables-0.21.4 \
     && sed -i \
     -e 's|^listen =.*$|listen = 9000|' \
     -e 's|^;daemonize =.*$|daemonize = no|' \
