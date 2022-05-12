@@ -25,8 +25,6 @@ RUN apk --no-cache add \
     supervisor \
 #RUN apk update && apk upgrade && apk --no-cache --update add ca-certificates curl nginx supervisor \
     && chmod +x /entrypoint.sh \
-    && mkdir /opt \
-    && mkdir /run/nginx \
     && git clone https://github.com/RackTables/racktables/ /opt/racktables \
     && cd /opt/racktables \
     && git checkout RackTables-0.22.0 \
