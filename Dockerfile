@@ -29,7 +29,7 @@ RUN apk --no-cache add \
     && mkdir /run/nginx \
     && git clone https://github.com/RackTables/racktables/ /opt/racktables \
     && cd /opt/racktables \
-    && git checkout RackTables-0.21.4 \
+    && git checkout RackTables-0.21.5 \
     && sed -i \
     -e 's|^listen =.*$|listen = 9000|' \
     -e 's|^;daemonize =.*$|daemonize = no|' \
