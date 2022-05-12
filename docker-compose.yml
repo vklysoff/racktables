@@ -1,22 +1,53 @@
-version: '2.1'
+version: '3.7'
+
+x-logging: &logging
+  logging:
+    driver: loki
+    options:
+      loki-url: "http://127.0.0.1:3100/loki/api/v1/push"
+
+volumes:
+  mariadb_data:
+    driver: local
+
+networks:
+  backend:
+    name: backend
+    driver: bridge
+  db:
+
 services:
+
   mariadb:
     image: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./dump:/dump
     environment:
       - MYSQL_DATABASE=racktables
-      - MYSQL_USER=racktables
-      - MYSQL_PASSWORD=foobarbaz
-      - MYSQL_RANDOM_ROOT_PASSWORD=yes_since_this_isnt_production
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MARIADB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+    networks:
+      - db
+    <<: *logging
+
   racktables:
     build: .
     #image: rack-new
+    depends_on:
+      - mariadb
     links:
       - mariadb
     environment:
       - DBHOST=mariadb
       - DBNAME=racktables
-      - DBUSER=racktables
-      - DBPASS=foobarbaz
+      - DBUSER=$MYSQL_USER
+      - DBPASS=$MYSQL_PASSWORD
     ports:
       - 8000:80
       - 9000:9000
+    networks:
+      - backend
+      - db
+    <<: *logging
