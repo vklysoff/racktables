@@ -30,6 +30,7 @@ RUN apk --no-cache add \
     && git clone https://github.com/RackTables/racktables/ /opt/racktables \
     && cd /opt/racktables \
     && git checkout RackTables-0.21.5 \
+    && ln -s . /opt/racktables/wwwroot/racktables
     && sed -i \
     -e 's|^listen =.*$|listen = 9000|' \
     -e 's|^;daemonize =.*$|daemonize = no|' \
@@ -38,6 +39,6 @@ RUN apk --no-cache add \
 #
 COPY nginx.conf /etc/nginx/nginx.conf
 VOLUME /opt/racktables/wwwroot
-EXPOSE 9000
+EXPOSE 80 9000
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
