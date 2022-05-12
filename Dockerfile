@@ -29,6 +29,7 @@ RUN apk --no-cache add \
     && git clone https://github.com/RackTables/racktables/ /opt/racktables \
     && cd /opt/racktables \
     && git checkout RackTables-0.22.0 \
+    && ln -s . /opt/racktables/wwwroot/racktables
     && sed -i \
     -e 's|^listen =.*$|listen = 9000|' \
     -e 's|^;daemonize =.*$|daemonize = no|' \
