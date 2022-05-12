@@ -21,6 +21,7 @@ RUN apk --no-cache add \
     php7-pcntl \
     php7-pdo_mysql \
     php7-snmp \
+    php7-mbstring \
     nginx \
     supervisor \
 #RUN apk update && apk upgrade && apk --no-cache --update add ca-certificates curl nginx supervisor \
